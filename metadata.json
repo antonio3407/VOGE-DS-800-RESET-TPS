@@ -1,0 +1,8 @@
+{
+  "name": "Voge 800 MSE",
+  "description": "Secuencias de mandos y centralita Bosch MSE 6.0 para Voge DS 800 Rally con temporizadores y locuciones por voz paso a paso.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

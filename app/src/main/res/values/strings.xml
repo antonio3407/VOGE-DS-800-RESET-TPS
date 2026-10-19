@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Voge 800 MSE</string>
+    <string name="subtitle">Voge DS 800 Rally • Bosch MSE 6.0</string>
+    <string name="title_sequences">Secuencias de Mandos</string>
+    <string name="filter_all">Todas</string>
+    <string name="filter_ecu">Centralita Bosch</string>
+    <string name="filter_service">Mantenimiento</string>
+    <string name="filter_controls">Chasis &amp; Mandos</string>
+    <string name="action_start">Iniciar Secuencia Guiada</string>
+    <string name="action_resume">Reanudar</string>
+    <string name="action_pause">Pausar</string>
+    <string name="action_next">Siguiente Paso</string>
+    <string name="action_prev">Paso Anterior</string>
+    <string name="action_repeat_audio">Repetir Voz</string>
+    <string name="action_finish">Finalizar</string>
+    <string name="action_reset">Reiniciar</string>
+</resources>
