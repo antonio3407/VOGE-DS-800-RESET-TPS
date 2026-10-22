@@ -35,6 +35,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import com.example.R
 import com.example.ui.theme.DashboardCyanSecondary
 import com.example.ui.theme.DarkBackground
@@ -45,6 +49,12 @@ fun RallyDashboardHeader(
     ttsEnabled: Boolean,
     onToggleTts: () -> Unit
 ) {
+    var showDisclaimer by rememberSaveable { mutableStateOf(false) }
+
+    if (showDisclaimer) {
+        DisclaimerDialog(onDismiss = { showDisclaimer = false })
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,21 +107,28 @@ fun RallyDashboardHeader(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = RallyOrangePrimary,
-                                shape = RoundedCornerShape(6.dp)
-                            )
-                            .padding(horizontal = 10.dp, vertical = 5.dp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(
-                            text = "BOSCH MSE 6.0",
-                            color = Color.Black,
-                            fontWeight = FontWeight.Black,
-                            fontSize = 11.sp,
-                            letterSpacing = 1.sp
-                        )
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    color = RallyOrangePrimary,
+                                    shape = RoundedCornerShape(6.dp)
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = "BOSCH MSE 6.0",
+                                color = Color.Black,
+                                fontWeight = FontWeight.Black,
+                                fontSize = 11.sp,
+                                letterSpacing = 1.sp
+                            )
+                        }
+
+                        DisclaimerButton(onClick = { showDisclaimer = true })
                     }
 
                     OutlinedButton(

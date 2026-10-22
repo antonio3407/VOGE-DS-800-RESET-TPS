@@ -34,6 +34,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
@@ -60,11 +61,21 @@ import com.example.ui.theme.RallyLimeTertiary
 import com.example.ui.theme.RallyOrangePrimary
 import com.example.viewmodel.SequenceViewModel
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: SequenceViewModel
+    viewModel: SequenceViewModel,
+    onBack: (() -> Unit)? = null
 ) {
+    if (onBack != null) {
+        BackHandler {
+            onBack()
+        }
+    }
+
     val uiState by viewModel.uiState.collectAsState()
     val tpsSequence = SequencesRepository.tpsResetSequence
 
@@ -90,11 +101,24 @@ fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            text = "VOGE DS 800 • RESET TPS",
+                            text = "Ajuste manual del TPS",
                             fontWeight = FontWeight.Black,
-                            letterSpacing = 1.sp,
+                            letterSpacing = 0.5.sp,
                             fontSize = 17.sp
                         )
+                    }
+                },
+                navigationIcon = {
+                    if (onBack != null) {
+                        IconButton(
+                            onClick = onBack,
+                            modifier = Modifier.testTag("nav_back_to_menu")
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Volver al Menú Principal"
+                            )
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

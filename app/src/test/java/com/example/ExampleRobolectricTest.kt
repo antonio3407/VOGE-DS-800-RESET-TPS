@@ -1,10 +1,13 @@
 package com.example
 
+import android.app.Application
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.example.data.SequencesRepository
+import com.example.util.ObdConnectionStatus
+import com.example.util.ObdManager
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -50,5 +53,26 @@ class ExampleRobolectricTest {
             assertTrue(step.instruction.isNotBlank())
             assertTrue(step.voiceInstruction.isNotBlank())
         }
+    }
+
+    @Test
+    fun `verify OBD manager simulation and volatile reset`() = runBlocking {
+        val app = ApplicationProvider.getApplicationContext<Application>()
+        val obdManager = ObdManager(app)
+
+        obdManager.startSimulationMode()
+        assertEquals(ObdConnectionStatus.SIMULATED, obdManager.connectionStatus.value)
+
+        // Verify initial telemetry
+        val initialTelemetry = obdManager.telemetry.value
+        assertTrue("RPM should be around idle in simulation", initialTelemetry.rpm > 1000)
+
+        // Verify volatile memory reset
+        val resetResult = obdManager.resetVolatileMemory()
+        assertTrue("Volatile memory reset should succeed in simulation", resetResult)
+        assertEquals(true, obdManager.telemetry.value.resetSuccess)
+
+        obdManager.disconnect()
+        assertEquals(ObdConnectionStatus.DISCONNECTED, obdManager.connectionStatus.value)
     }
 }
